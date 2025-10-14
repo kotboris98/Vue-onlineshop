@@ -13,9 +13,11 @@
 <template>
     <div class="grid grid-cols-4 gap-2">
         <Card 
-        title="Кроссовки Nike" 
-        image-url="/sneakers-1.jpg"
-        :price="1000"
+        v-for="item in items"
+        :key="item.id"
+        :title="item.title" 
+        :image-url="item.imageUrl"
+        :price="item.price"
         :is-added="false"
         :is-favourite="false"
         :onClickAdd="onClickAdd" />

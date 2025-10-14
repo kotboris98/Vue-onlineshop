@@ -1,7 +1,7 @@
 <template>
     <header class="flex justify-between border-b border-slate-300 px-10 py-8">
     <div class="flex items-center gap-4">
-      <img src="../assets/logo.png" alt="logo" class="w-10"></img>
+      <img src="/logo.png" alt="logo" class="w-10"></img>
       <div>
         <h2 class="text-xl font-bold uppercase">Vue sneakers</h2>
         <p class="text-slate-400">Магазин лучших кроссовок</p>
@@ -9,15 +9,15 @@
     </div>
     <ul class="flex items-center gap-10">
       <li class="flex items-center cursor-pointer gap-3 text-gray-500 hover:text-black">
-        <img src="../assets/cart.svg" alt="cart"></img>
+        <img src="/cart.svg" alt="cart"></img>
         <b>1205 руб.</b>
       </li>
       <li class="flex items-center cursor-pointer gap-3 text-gray-500 hover:text-black">
-        <img src="../assets/heart.svg" alt="liked"></img>
+        <img src="/heart.svg" alt="liked"></img>
         <span>Закладки</span>
       </li>
       <li class="flex items-center cursor-pointer gap-3 text-gray-500 hover:text-black">
-        <img src="../assets/profile.svg" alt="profile"></img>
+        <img src="/profile.svg" alt="profile"></img>
         <span>Профиль</span>
       </li>
     </ul>
