@@ -1,6 +1,10 @@
 <script setup>
     import Card from './Card.vue';
 
+    defineProps({
+        items: Array
+    })
+
     const onClickAdd = () => {
         alert('Добавить!')
     }
