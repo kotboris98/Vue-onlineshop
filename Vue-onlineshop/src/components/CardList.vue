@@ -20,6 +20,7 @@
         :price="item.price"
         :is-added="false"
         :is-favourite="false"
-        :onClickAdd="onClickAdd" />
+        :onClickAdd="onClickAdd"
+        :isFavorite="item.isFavorite" />
       </div>
 </template>
