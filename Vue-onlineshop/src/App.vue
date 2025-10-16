@@ -3,7 +3,7 @@
   import Header from './components/Header.vue';
   import CardList from './components/CardList.vue';
   import Drawer from './components/Drawer.vue';
-  import { onMounted, reactive, ref, watch } from 'vue';
+  import { onMounted, provide, reactive, ref, watch } from 'vue';
   import axios from 'axios';
 
   const items = ref([])
@@ -25,7 +25,7 @@
     try {
       const { data: favorites } = await axios.get(`https://c25052030383a4d5.mokky.dev/favorites`)
       items.value = items.value.map(item => {
-        const favorite = favorites.find(favorite => favorite.id === item.id)
+        const favorite = favorites.find((favorite) => favorite.parentId === item.id)
         if (!favorite) {
           return item
         }
@@ -42,6 +42,7 @@
 
   const addToFavorite = async(item) => {
     item.isFavourite = true
+    console.log(item)
   }
 
   const fetchItems = async() => {
@@ -71,6 +72,8 @@
     await fetchFavorites()
   })
   watch(filters, fetchItems)
+
+  provide('addToFavorite', addToFavorite)
 </script>
 
 <template>
