@@ -7,6 +7,7 @@
   import axios from 'axios';
 
   const items = ref([])
+  const cart = ref([])
 
   const drawerOpen = ref(false)
 
@@ -22,6 +23,17 @@
     sortBy: 'title',
     searchQuery: ''
   })
+
+  const addToCart = (item) => {
+    if (!item.isAdded) {
+      cart.value.push(item)
+      item.isAdded = true
+    } else {
+      cart.value.splice(cart.value.indexOf(item), 1)
+      item.isAdded = false
+    }
+    console.log(cart)
+  }
 
   const onChangeSelect = (event) => {
     filters.sortBy = event.target.value
@@ -100,10 +112,13 @@
 
   provide('addToFavorite', addToFavorite)
 
-  provide('cartActions', {
+  provide('cart', {
+    cart,
     closeDrawer,
     openDrawer
   })
+
+  provide('addToCart', addToCart)
 </script>
 
 <template>
@@ -129,7 +144,7 @@
           </div>
         </div>
       </div>
-      <CardList :items="items" @addToFavorite="addToFavorite" />
+      <CardList :items="items" @addToFavorite="addToFavorite" @addToCart="addToCart" />
     </div>
   </div>
 </template>

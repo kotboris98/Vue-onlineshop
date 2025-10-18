@@ -2,7 +2,8 @@
     import { inject } from 'vue';
     import DrawerItems from './DrawerItems.vue';
 
-    const { closeDrawer } = inject('cartActions')
+    const { closeDrawer } = inject('cart')
+    const { cart } = inject('cart')
 </script>
 
 <template>
@@ -12,10 +13,12 @@
             <h2 class="text-2xl font-bold">Корзина</h2>
             <img @click="closeDrawer" src="/close-red-icon.svg" class="w-10 opacity-70 cursor-pointer"></img>
         </div>
-        <DrawerItems />
-        <DrawerItems />
-        <DrawerItems />
-        <DrawerItems />
+        <DrawerItems 
+            v-for="item in cart" 
+            :key="item.id" 
+            :title="item.title"
+            :price="item.price"
+            :image-url="item.imageUrl" />
         <div class="flex gap-2 mb-6 mt-6">
             <span>Итого:</span>
             <div class="flex-1 border-b border-dashed"></div>
