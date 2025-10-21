@@ -1,10 +1,9 @@
 <script setup>
-    import { inject, reactive, watch } from 'vue';
+    import { inject, onMounted, reactive, watch, ref, provide } from 'vue';
     import CardList from '../components/CardList.vue';
     import axios from 'axios'; 
-    import { ref } from 'process';
 
-    const { addToCart, removeFromCart } = inject('cart')
+    const { cart, addToCart, removeFromCart } = inject('cart')
 
     const items = ref([])
 
@@ -29,6 +28,27 @@
     const onChangeSearchInput = (event) => {
         filters.searchQuery = event.target.value
     }
+
+    const addToFavorite = async(item) => {
+    try {
+      if (!item.isFavorite) {
+        const obj = {
+          parentId: item.id
+        }
+        const { data } = await axios.post(`https://c25052030383a4d5.mokky.dev/favorites`, obj)
+        item.isFavorite = true
+        item.favoriteId = data.id
+      } else {
+        await axios.delete(`https://c25052030383a4d5.mokky.dev/favorites/${item.favoriteId}`)
+        item.isFavorite = false
+        item.favoriteId = null
+      }
+    } catch (err) {
+      console.log(err)
+    }
+    }
+
+    provide('addToFavorite', addToFavorite)
 
     const fetchFavorites = async () => {
         try {
@@ -71,6 +91,18 @@
         console.log(err)
         }
     }
+
+    onMounted(async() =>  {
+      await fetchItems()
+      await fetchFavorites()
+  })
+
+    watch(cart, () => {
+      items.value = items.value.map((item) => ({
+        ...item,
+        isAdded: false
+        }))
+    })
 
     watch(filters, fetchItems)
 </script>

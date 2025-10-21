@@ -2,11 +2,11 @@
 
   import Header from './components/Header.vue';
   import Drawer from './components/Drawer.vue';
-  import { computed, onMounted, provide, ref, watch } from 'vue';
+  import { computed, provide, ref, watch } from 'vue';
   import axios from 'axios';
+  import Home from './pages/Home.vue';
 
   const cart = ref([])
-  const isCreatingOrder = ref(false)
 
   const drawerOpen = ref(false)
 
@@ -32,55 +32,6 @@
     item.isAdded = false
   }
 
-  const createOrder = async () => {
-    try {
-      isCreatingOrder.value = true      
-      const { data } = await axios.post(`https://c25052030383a4d5.mokky.dev/orders`, {
-        items: cart.value,
-        totalPrice: totalPrice.value
-      })
-      cart.value = []
-      return data
-    } catch (error) {
-      console.log(err)
-    } finally {
-      isCreatingOrder.value = false
-    }
-  }
-
-  const addToFavorite = async(item) => {
-    try {
-      if (!item.isFavorite) {
-        const obj = {
-          parentId: item.id
-        }
-        const { data } = await axios.post(`https://c25052030383a4d5.mokky.dev/favorites`, obj)
-        item.isFavorite = true
-        item.favoriteId = data.id
-      } else {
-        await axios.delete(`https://c25052030383a4d5.mokky.dev/favorites/${item.favoriteId}`)
-        item.isFavorite = false
-        item.favoriteId = null
-      }
-    } catch (err) {
-      console.log(err)
-    }
-    }
-
-  onMounted(async() =>  {
-    await fetchItems()
-    await fetchFavorites()
-  })
-
-  watch(cart, () => {
-    items.value = items.value.map((item) => ({
-      ...item,
-      isAdded: false
-    }))
-  })
-
-  provide('addToFavorite', addToFavorite)
-
   provide('cart', {
     cart,
     addToCart,
@@ -97,7 +48,7 @@
   <div class="bg-white w-4/5 m-auto h-full rounded-xl shadow-xl mt-10">
     <Header :total-price="totalPrice" @openDrawer="openDrawer" />
     <div class="p-10">
-      
+      <router-view></router-view>
     </div>
   </div>
 </template>

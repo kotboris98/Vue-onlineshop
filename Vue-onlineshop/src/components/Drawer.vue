@@ -11,6 +11,22 @@
         totalPrice: Number,
         isCreatingOrder: Boolean
     })
+
+    const createOrder = async () => {
+        try {
+            isCreatingOrder.value = true      
+    const { data } = await axios.post(`https://c25052030383a4d5.mokky.dev/orders`, {
+            items: cart.value,
+            totalPrice: totalPrice.value
+        })
+      cart.value = []
+      return data
+    } catch (error) {
+      console.log(err)
+    } finally {
+      isCreatingOrder.value = false
+    }
+    }
 </script>
 
 <template>
@@ -29,8 +45,11 @@
             <div class="flex-1 border-b border-dashed"></div>
             <b>{{ totalPrice }}</b>
         </div>
-        <button 
+        <button
+            disabled="" 
             class="bg-lime-500 w-full rounded-xl py-3 text-white hover:bg-lime-600"
-            @click="() => emit('createOrder')">Оформить заказ</button>
+            @click="() => emit('createOrder')">
+            Оформить заказ
+        </button>
     </div>
 </template>
